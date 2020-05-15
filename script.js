@@ -55,13 +55,36 @@ class Calculator {
     this.perivousOperand = "";
     this.final = true;
   }
+  getDisplayNumber(number) {
+    const stringNumber = number.toString();
+    const integerDigits = parseFloat(stringNumber.split(".")[0]);
+    const decimalDigits = stringNumber.split(".")[1];
+
+    let integerDisplay;
+    if (isNaN(integerDigits)) {
+      integerDisplay = "";
+    } else {
+      integerDisplay = integerDigits.toLocaleString("en", {
+        maximumFractionDigits: 0,
+      });
+    }
+    if (decimalDigits != null) {
+      return `${integerDisplay}.${decimalDigits}`;
+    } else {
+      return integerDisplay;
+    }
+  }
   updateDisplay() {
-    currentOperandTextElement.innerText = this.currentOperand;
+    currentOperandTextElement.innerText = this.getDisplayNumber(
+      this.currentOperand
+    );
     if (this.operation != undefined) {
       this.perivousOperandTextElement.innerText =
-        this.perivousOperand + this.operation;
+        this.getDisplayNumber(this.perivousOperand) + this.operation;
     } else {
-      this.perivousOperandTextElement.innerText = this.perivousOperand;
+      this.perivousOperandTextElement.innerText = this.getDisplayNumber(
+        this.perivousOperand
+      );
     }
   }
 }
